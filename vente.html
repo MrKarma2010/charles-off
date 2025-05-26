@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Charles-off - Boutique</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #111827;
+      color: white;
+    }Panier
+
+    header <button onclick="checkout()" style="margin-top: 10px; background-color: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Passer la commande</button>{
+      background-color: #1f2937;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #3b82f6;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #60a5fa;
+    }
+
+    .search-bar {
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .product-card {
+      background-color: #1f2937;
+      border-radius: 10px;
+      overflow: hidden;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover {
+      transform: scale(1.03);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      background-color: #374151;
+      border-radius: 5px;
+    }
+
+    .product-info {
+      margin-top: 10px;
+    }
+
+    .product-info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .product-info p {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .product-info .price {
+      color: #f59e0b;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .add-to-cart {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+    }
+
+    .add-to-cart:hover {
+      background-color: #2563eb;
+    }
+
+    @media (max-width: 600px) {
+      .search-bar input {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cart" style="position: fixed; bottom: 20px; right: 20px; background: #facc15; color: black; padding: 10px 15px; border-radius: 8px; display: none; z-index: 10000;">
+    Produit ajouté au panier !
+  </div>
+
+ <header>
+  <div class="logo">Charles-off</div>
+  <nav>
+    <a href="#">Accueil</a>
+    <a href="#">Produits</a>
+    <a href="#" onclick="toggleCartView()">
+    <a href="#" onclick="toggleCartView()">Panier (<span id="cartCount">0</span>)</a>
+    </a>
+    <a href="#" onclick="showContact()" style="color: #facc15;">Contact</a>
+  </nav>
+</header>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un produit..." onkeyup="filterProducts()">
+  </div>
+
+  <div style="text-align: center; margin-top: 10px;">
+    <select id="categoryFilter" onchange="filterByCategory()" style="padding: 10px; border-radius: 8px;">
+      <option value="all">Toutes les catégories</option>
+      <option value="chaussures">Chaussures</option>
+      <option value="casques">Casques</option>
+      <option value="montres">Montres</option>
+      <option value="sacs">Sacs</option>
+    </select>
+  </div>
+<div style="background-color: #facc15; color: #1f2937; text-align: center; padding: 15px; font-weight: bold;">
+  Offre spéciale : Achetez-en 1, obtenez-en 1 gratuit sur les montres connectées ! Jusqu’au 31 mai.
+</div>
+  <section class="product-grid" id="productGrid">
+    <!-- Chaussure de sport -->
+<div class="product-card">
+  <img src="images/chaussure-de-sport.jpeg" alt="Chaussure Sport">
+  <div class="product-info">
+    <h3>Chaussure Sport</h3>
+    <p>Légères et très confortables pour toutes vos activités. Durables et lavables sans risque.</p>
+    <div class="price">89,99 €</div>
+    <button class="add-to-cart">Ajouter au panier</button>
+  </div>
+</div>
+
+<!-- Casque Bluetooth -->
+<div class="product-card">
+  <img src="images/casque-bluetooth.jpeg" alt="Casque Bluetooth">
+  <div class="product-info">
+    <h3>Casque Bluetooth</h3>
+    <p>Audio HD, autonomie de 20h. Idéal pour écouter de la musique ou prendre des appels sans fil.</p>
+    <div class="price">59,90 €</div>
+    <button class="add-to-cart">Ajouter au panier</button>
+  </div>
+</div>
+
+<!-- Montre connectée -->
+<div class="product-card">
+  <img src="images/montre-connectee.jpeg" alt="Montre Connectée">
+  <div class="product-info">
+    <h3>Montre Connectée</h3>
+    <p>Suivi santé, notifications en temps réel, étanche, design élégant.</p>
+    <div class="price">99,00 €</div>
+    <button class="add-to-cart">Ajouter au panier</button>
+  </div>
+</div>
+
+<!-- Sac à dos -->
+<div class="product-card">
+  <img src="images/sac-a-dos-solide.jpeg" alt="Sac à dos résistant">
+  <div class="product-info">
+    <h3>Sac à Dos Résistant</h3>
+    <p>Idéal pour l’école ou les voyages. Solide, spacieux, et imperméable.</p>
+    <div class="price">45,00 €</div>
+    <button class="add-to-cart">Ajouter au panier</button>
+  </div>
+</div>
+  </section>
+
+  <section id="contactSection" style="display: none; padding: 40px; background-color: #1e293b; border-top: 3px solid #3b82f6;">
+    <div style="max-width: 600px; margin: auto; text-align: center; background-color: #0f172a; padding: 30px; border-radius: 12px; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);">
+      <h2 style="font-size: 2rem; margin-bottom: 15px; color: #3b82f6;">Contact Owner</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 10px; color: #facc15;">Nom : <strong>IZUNA-MOD</strong></p>
+      <p style="font-size: 1.2rem; color: #10b981;">Téléphone : <strong>+509 35 31 90 47</strong></p>
+    </div>
+  </section>
+<div id="cartView" style="display:none; position: fixed; top: 100px; right: 20px; background-color: #1f2937; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px black; z-index: 1000; max-height: 300px; overflow-y: auto; width: 250px;">
+  <h3 style="color: #facc15; margin-bottom: 10px;">Votre Panier</h3>
+  <ul id="cartItems" style="list-style: none; padding-left: 0; color: white; margin-bottom: 10px;"></ul>
+  <p id="cartTotal" style="color: #10b981; font-weight: bold;">Total : 0 €</p>
+  <button onclick="clearCart()" style="margin-top: 10px; background-color: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Vider le panier</button>
+<a href="commande.html">
+  <button style="margin-top: 10px; background-color: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
+    Passer la commande
+  </button>
+</a>
+</div>
+<div id="orderForm" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+  <div style="background:#1f2937; padding:30px; border-radius:10px; width:90%; max-width:400px; color:white;">
+    <h2 style="margin-bottom:15px; color:#facc15;">Finaliser la commande</h2>
+    <label>Nom :</label><br>
+    <input type="text" id="orderName" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <label>Adresse :</label><br>
+    <input type="text" id="orderAddress" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+    <label>Téléphone :</label><br>
+    <input type="tel" id="orderPhone" style="width:100%; padding:8px; margin-bottom:15px;"><br>
+    <button onclick="submitOrder()" style="background:#10b981; color:white; padding:10px 15px; border:none; border-radius:5px;">Envoyer la commande</button>
+    <button onclick="closeOrderForm()" style="margin-left:10px; background:#ef4444; color:white; padding:10px 15px; border:none; border-radius:5px;">Annuler</button>
+  </div>
+</div>
+  <script>
+    function filterProducts() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".product-card");
+
+      cards.forEach(card => {
+        const name = card.querySelector("h3").textContent.toLowerCase();
+        card.style.display = name.includes(input) ? "block" : "none";
+      });
+    }
+
+    function filterByCategory() {
+      const filter = document.getElementById("categoryFilter").value;
+      const cards = document.querySelectorAll(".product-card");
+
+      cards.forEach(card => {
+        const category = card.getAttribute("data-category");
+        card.style.display = (filter === "all" || category === filter) ? "block" : "none";
+      });
+    }
+
+    function showContact() {
+      document.getElementById("contactSection").scrollIntoView({ behavior: "smooth" });
+      document.getElementById("contactSection").style.display = "block";
+    }
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+updateCart();
+
+// Ajouter au panier
+document.querySelectorAll(".add-to-cart").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const card = btn.closest(".product-card");
+    const title = card.querySelector("h3").textContent;
+    const price = card.querySelector(".price").textContent.replace("€", "").replace(",", ".").trim();
+
+    cart.push({ title, price: parseFloat(price) });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
+    showCartPopup();
+  });
+});
+
+function updateCart() {
+  document.getElementById("cartCount").textContent = cart.length;
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  cartItems.innerHTML = "";
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = "<li style='color:#9ca3af;'>Le panier est vide.</li>";
+    cartTotal.textContent = "Total : 0 €";
+    return;
+  }
+
+  let total = 0;
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.title} - ${item.price.toFixed(2)} €`;
+    cartItems.appendChild(li);
+    total += item.price;
+  });
+
+  cartTotal.textContent = `Total : ${total.toFixed(2)} €`;
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function toggleCartView() {
+  const cartView = document.getElementById("cartView");
+  cartView.style.display = cartView.style.display === "none" ? "block" : "none";
+}
+
+function clearCart() {
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCart();
+}
+
+function showCartPopup() {
+  const popup = document.getElementById("cart");
+  popup.style.display = "block";
+  setTimeout(() => {
+    popup.style.display = "none";
+  }, 2000);
+}
+
+// Fonction de commande
+function checkout() {
+  if (cart.length === 0) {
+    alert("Votre panier est vide !");
+    return;
+  }
+
+  let summary = "Résumé de votre commande :\n\n";
+  cart.forEach((item, i) => {
+    summary += `${i + 1}. ${item.title} - ${item.price.toFixed(2)} €\n`;
+  });
+
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
+  summary += `\nTotal à payer : ${total.toFixed(2)} €`;
+
+  alert(summary);
+  clearCart();
+}
+
+  </script>
+<script>
+  function openOrderForm() {
+    document.getElementById("orderForm").style.display = "flex";
+  }
+
+  function closeOrderForm() {
+    document.getElementById("orderForm").style.display = "none";
+  }
+
+  function submitOrder() {
+    const name = document.getElementById("orderName").value;
+    const address = document.getElementById("orderAddress").value;
+    const phone = document.getElementById("orderPhone").value;
+
+    if (name && address && phone) {
+      alert(`Commande envoyée avec succès !\nNom: ${name}\nAdresse: ${address}\nTéléphone: ${phone}`);
+      closeOrderForm();
+      // Tu peux ici ajouter un envoi vers un serveur ou email (si backend disponible)
+    } else {
+      alert("Merci de remplir tous les champs.");
+    }
+  }
+</script>
+<section style="padding: 30px; background-color: #1e293b; color: white;">
+  <h2 style="text-align: center; font-size: 2rem; margin-bottom: 20px;">FAQ - Questions fréquentes</h2>
+  <div style="max-width: 800px; margin: auto;">
+    <p><strong>Quels sont les délais de livraison ?</strong><br/>Entre 3 à 7 jours ouvrables selon votre localisation.</p>
+    <p><strong>Quels modes de paiement acceptez-vous ?</strong><br/>Cartes Visa/Mastercard, PayPal, transferts bancaires et paiements à la livraison (selon zone).</p>
+    <p><strong>Comment retourner un produit ?</strong><br/>Contactez notre support et suivez les instructions fournies. C’est simple et rapide.</p>
+  </div>
+</section>
+<section style="padding: 20px; background-color: #111827; text-align: center; color: #d1d5db;">
+  <p>Méthodes de paiement acceptées : Visa, Mastercard, PayPal, Virement bancaire, Paiement à la livraison</p>
+</section>
+<script>
+function passerCommande() {
+  const formHtml = `
+    <div id="commandeForm" style="background:#fff; padding:20px; border-radius:10px; max-width:400px; margin:auto;">
+      <h3>Finalisez votre commande</h3>
+      <input type="text" placeholder="Nom complet" id="nom" required style="width:100%;margin:5px 0;"><br>
+      <input type="text" placeholder="Adresse" id="adresse" required style="width:100%;margin:5px 0;"><br>
+      <input type="tel" placeholder="Téléphone" id="tel" required style="width:100%;margin:5px 0;"><br>
+      <button onclick="envoyerCommande()">Envoyer</button>
+    </div>
+  `;
+  document.body.innerHTML = formHtml;
+}
+
+function envoyerCommande() {
+  const nom = document.getElementById("nom").value;
+  const adresse = document.getElementById("adresse").value;
+  const tel = document.getElementById("tel").value;
+
+  alert(`Commande envoyée !\nNom: ${nom}\nAdresse: ${adresse}\nTéléphone: ${tel}`);
+  // Tu peux ensuite envoyer ces infos à un serveur ou un email
+}
+</script>
+</body>
+</html>
